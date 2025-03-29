@@ -27,7 +27,7 @@ import asyncio
 from xml.etree import ElementTree as ET
 from xml.etree.ElementTree import ParseError
 from nmap3.nmapparser import NmapCommandParser
-from nmap3.utils import get_nmap_path, user_is_root
+from nmap3.utils import get_nmap_path
 from nmap3.exceptions import NmapXMLParserError, NmapExecutionError
 import re
 
@@ -199,7 +199,6 @@ class Nmap(object):
         return services
 
     # Using of basic options for stealth scan
-    @user_is_root
     def nmap_stealth_scan(self, target, arg="-Pn -sZ", args=None):
         """
         nmap -oX - nmmapper.com -Pn -sZ
@@ -216,7 +215,6 @@ class Nmap(object):
         return self.scan_command(target=target, arg=arg, args=args)
         # TODO
 
-    @user_is_root
     def nmap_os_detection(self, target, arg="-O", args=None):  # requires root
         """
         nmap -oX - nmmapper.com -O
@@ -355,7 +353,6 @@ class NmapScanTechniques(Nmap):
         raise Exception("Something went wrong")
             
 
-    @user_is_root
     def nmap_fin_scan(self, target, args=None):
         """
         Perform scan using nmap's fin scan
@@ -367,7 +364,6 @@ class NmapScanTechniques(Nmap):
         results = self.parser.filter_top_ports(xml_root)
         return results
     
-    @user_is_root
     def nmap_syn_scan(self, target, args=None):
         """
         Perform syn scan on this given
@@ -391,7 +387,6 @@ class NmapScanTechniques(Nmap):
         results = self.parser.filter_top_ports(xml_root)
         return results
     
-    @user_is_root
     def nmap_udp_scan(self, target, args=None):
         """
         Scan target using the nmap tcp connect
